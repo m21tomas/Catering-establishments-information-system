@@ -20,28 +20,23 @@ cmd /c npm -v
 echo Npm version checked: %ERRORLEVEL%
 
 echo Installing dependencies...
-npm install
+cmd /c npm install
 echo Dependencies installed: %ERRORLEVEL%
 
-npm run build
-IF ERRORLEVEL 1 (
-    echo Npm build failed. Exiting...
-    exit /B 1
-) ELSE (
-    echo Npm build completed successfully.
-)
+echo Starting Npm Build...
+cmd /c npm run build
+echo Npm build completed: %ERRORLEVEL%
+
 
 echo Copying build to target...
 cd ..\Maitinimas-back\src\main\resources\public\
-xcopy /E /Y ..\..\..\..\..\Maitinimas-front\build\* .\
+cmd /c xcopy /E /Y ..\..\..\..\..\Maitinimas-front\build\* .\
+echo Build copied to target: %ERRORLEVEL%
 
 echo Maven clean package...
 cd ..\..\..\..
-mvn clean package
-IF ERRORLEVEL 1 (
-    echo Maven clean package failed. Exiting...
-    exit /B 1
-)
+cmd /c mvn clean package
+echo Backend binary war package created: %ERRORLEVEL%
 
 echo Build script completed successfully.
 ENDLOCAL

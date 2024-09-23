@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/Maitinimas/static/css/main.5092e7c2.css",
+    "main.js": "/Maitinimas/static/js/main.c2553e8a.js",
+    "static/js/787.db997be4.chunk.js": "/Maitinimas/static/js/787.db997be4.chunk.js",
+    "static/media/maist2.png": "/Maitinimas/static/media/maist2.b7fd303c4df627a0e774.png",
+    "static/media/defaultImg.jpg": "/Maitinimas/static/media/defaultImg.50bdc6d095ec95623de2.jpg",
+    "index.html": "/Maitinimas/index.html",
+    "static/media/loader.svg": "/Maitinimas/static/media/loader.03e0d80c740514c36be3e9539c53630f.svg",
+    "main.5092e7c2.css.map": "/Maitinimas/static/css/main.5092e7c2.css.map",
+    "main.c2553e8a.js.map": "/Maitinimas/static/js/main.c2553e8a.js.map",
+    "787.db997be4.chunk.js.map": "/Maitinimas/static/js/787.db997be4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5092e7c2.css",
+    "static/js/main.c2553e8a.js"
+  ]
+}

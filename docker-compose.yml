@@ -1,0 +1,30 @@
+services:
+  back-end:
+    build:
+      context: Maitinimas-back
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8090
+    env_file:
+      - Maitinimas-back/.env.docker
+    depends_on:
+      - postgres-container
+  front-end:
+    build:
+      context: Maitinimas-front
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - Maitinimas-front/.env.development.local
+    depends_on:
+      - back-end
+  postgres-container:
+    image: postgres:alpine3.17
+    volumes:
+      - dbdata:/var/lib/postgres
+    env_file:
+      - .env.postgres
+
+volumes:
+  dbdata:

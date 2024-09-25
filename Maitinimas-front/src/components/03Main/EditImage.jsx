@@ -148,7 +148,7 @@ function EditImage({ editCanteenData, setEditCanteenData, editDiskImagePreview, 
                         } else {
                             ext = binaryFileType.split('/').pop()
                         }
-                        fileName = "Internet-Image" + "-" + dateTime + "." + ext;
+                        fileName = `Internet-Image-${dateTime}.${ext}`;
                         console.log("fileName: ", fileName, " blob type: ", editBlob.type, " binaryFileType: ", binaryFileType)
                         file = new File([editBlob], fileName, {
                             type: binaryFileType

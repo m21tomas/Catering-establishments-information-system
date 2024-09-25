@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "../07CommonComponents/Pagination";
+// import Pagination from "../07CommonComponents/Pagination";
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import axios from "axios";
@@ -21,7 +21,7 @@ function OrdersContainer() {
     })
     const [deleteOrder, setDeleteOrder] = useState(0);
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    // const [selectedOption, setSelectedOption] = useState(null);
     const orderStatusOptions = [
         { value: 'APPROVED', label: 'Patvirtintas' },
         { value: 'SUBMIT', label: 'Pateiktas' },

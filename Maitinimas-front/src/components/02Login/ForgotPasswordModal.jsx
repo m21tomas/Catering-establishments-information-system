@@ -27,7 +27,7 @@ const ForgotPasswordModal = ({ forgotModal, setForgotModal }) => {
     useEffect(() => {
         expiredCaptcha ? recaptchaRef.current.reset() : <></>
         setExpiredCapture(false)
-    }, [expiredCaptcha])
+    }, [expiredCaptcha, recaptchaRef])
 
     const handleFieldChange = (event) => {
         const target = event.target;

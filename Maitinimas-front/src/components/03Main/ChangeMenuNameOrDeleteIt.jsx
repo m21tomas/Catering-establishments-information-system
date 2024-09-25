@@ -16,7 +16,7 @@ function EditDishes({ fullData, getCanteenEntity, chosenId, menuData, setMenuDat
         let menuName = undefined;
         fullData.menus.filter(item => item.id === chosenId).map(item => menuName = item.name);
         setMenuData({ ...menuData, editMenuName: menuName });
-    }, []);
+    }, [chosenId, menuData, fullData.menus, setMenuData]);
 
     function checkEditMenu() {
         return menuData.editMenuName.length > 0 && infoValid.editMenuName;

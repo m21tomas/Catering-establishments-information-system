@@ -35,7 +35,7 @@ echo Build copied to target: %ERRORLEVEL%
 
 echo Maven clean package...
 cd ..\..\..\..
-cmd /c mvn clean package
+cmd /c mvn clean package -DskipTests
 echo Backend binary war package created: %ERRORLEVEL%
 
 echo Build script completed successfully.

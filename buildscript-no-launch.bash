@@ -29,7 +29,7 @@ else
 fi
 
 echo Copying build to target...
-cd ../Maitinimas-back/src/main/resources/static/
+cd ../Maitinimas-back/src/main/resources/public/
 cp -r ../../../../../Maitinimas-front/build/* .
 echo "Build copied."
 

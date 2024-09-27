@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo Removing old resources...
-cd Maitinimas-back/src/main/resources/static
+cd Maitinimas-back/src/main/resources/public
 rm -r -f ./*
 echo "Old resources removed."
 

@@ -1,9 +1,12 @@
 package it.akademija.canteen;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +17,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.tika.Tika;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CanteenService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(CanteenService.class);
 
 	@Autowired
 	private CanteenDAO canteenDao;
@@ -95,6 +103,36 @@ public class CanteenService {
 		}
 	}
 	
+	public ImageFromUrlLoaderDTO getImageFromURL(String imageUrl) throws IOException {
+        URL url = new URL(imageUrl);
+        URLConnection connection = url.openConnection();
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
+        
+        try (InputStream inputStream = connection.getInputStream()) {
+        	byte[] imageData = inputStream.readAllBytes(); // Read image data into a byte array
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageData);
+            Tika tika = new Tika();
+            String contentType = tika.detect(byteArrayInputStream);
+            String fileExtension = "bin";
+            if (contentType.startsWith("image/")) {
+            	fileExtension = contentType.substring("image/".length());
+    	    } 
+            
+            System.out.println("\nBookServiceTest: File size: "+imageData.length);
+            System.out.println("BookServiceTest: Content type: "+contentType);
+            System.out.println("BookServiceTest: File extension: "+fileExtension+"\n");
+            
+            ImageFromUrlLoaderDTO imageObj = new ImageFromUrlLoaderDTO(imageData, imageData.length, contentType, fileExtension);
+            
+            return imageObj;
+        } catch (IOException e) {
+            // Handle the exception when there is no internet connection or openStream fails
+            e.printStackTrace();
+            throw new IOException("Failed to retrieve the image from the URL: " + imageUrl, e);
+        }
+    }
+	
 	@Transactional
 	public boolean createNewCanteenAndSaveImage(MultipartFile file, CanteenDTO data) throws IOException {
 		Canteen savedEntity = null;
@@ -115,33 +153,24 @@ public class CanteenService {
         
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
-        }
-         
-//        try (InputStream inputStream = file.getInputStream()) {
-//            Path filePath = uploadPath.resolve(fileName);
-//            String fileType = file.getContentType();
-//            System.out.println("File type: " + fileType);
-//            numberOfSavedBytes = Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-//            inputStream.close();
-//        } catch (IOException ioe) {        
-//            throw new IOException("Could not save image file: " + fileName, ioe);
-//        }      
+        }    
         
         InputStream inputStream = file.getInputStream();
         try {
         	Path filePath = uploadPath.resolve(fileName);
-        	String fileType = file.getContentType();
-        	System.out.println("File type: " + fileType);
+        	System.out.println("============================");
+        	System.out.println("Attempting to save file: " + fileName);
+        	System.out.println("File Size: " + file.getSize());
+        	System.out.println("File Content Type: " + file.getContentType());
+        	System.out.println("============================");
         	numberOfSavedBytes = Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);	    
-        } catch (IOException ioe) {        
-        	throw new IOException("Could not save image file: " + fileName, ioe);
-        } 
+        } catch (IOException ioe) {
+            LOG.error("Could not save image file: {} due to {}", fileName, ioe.getMessage());
+            throw new IOException("Could not save image file: " + fileName, ioe);
+        }
+
         
         inputStream.close();
-        
-//        Path filePath = Paths.get(uploadDir).resolve(fileName);
-//        System.out.println("DELETING RIGHT AFTER CREATION "+filePath);
-//		Files.delete(filePath);
         
 		savedEntity = canteenDao.saveAndFlush(newEntity);
 		

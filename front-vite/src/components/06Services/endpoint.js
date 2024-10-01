@@ -1,4 +1,4 @@
-//const apiEndpoint = process.env.PUBLIC_URL;
+//const apiEndpoint = import.meta.env.BASE_URL;
 
 const apiEndpoint = "http://localhost:8080";
 

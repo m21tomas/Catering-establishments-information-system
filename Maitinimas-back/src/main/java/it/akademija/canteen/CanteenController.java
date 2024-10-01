@@ -114,7 +114,19 @@ public class CanteenController {
 				
 				return new ResponseEntity<String>("Maitinmo įstaiga neišsaugota", HttpStatus.BAD_REQUEST); 
 			}	
+	}
+	
+	
+	@GetMapping("/getImageFromUrl")
+	public ResponseEntity<?> 
+	getImageFromUrl(@RequestParam(name = "url", required = true) String url) {
+		try {
+			return new ResponseEntity<ImageFromUrlLoaderDTO> (canteenService.getImageFromURL(url), HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
 	
 	/**
 	 * 

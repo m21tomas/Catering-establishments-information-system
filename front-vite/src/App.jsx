@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useLocation, Link } from 'react-router-dom';
 import { Switch, Route, Redirect } from "react-router-dom";
 import AuthContext from './components/06Services/AuthContext';
@@ -68,14 +68,7 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    // if(!auth && state.isAuthenticated){
-    //   state.username? state.username.length !== 0 ? setAuth(state.username) : <></> : <></>;
-    // }
-    // if(!state.isAuthenticated) setAuth("");
-    
-    //if(!state.isAuthenticated) setAuth("");
-    //if(!auth) setAuth(state.username)
-    console.log('Current Environment:', process.env.NODE_ENV);
+    console.log('Current Environment:', import.meta.env.MODE);
     console.log('Location:', location.pathname);
     if (state.isAuthenticated === null) {
       axios
@@ -109,8 +102,6 @@ function App() {
     }
   }, [state.isAuthenticated, location.pathname]);
 
-  
-
   if (state.isAuthenticated) {
     switch (state.role) {
       case "ADMIN":
@@ -118,7 +109,6 @@ function App() {
           <AuthContext.Provider value={{ state, dispatch }}>
             <AdminCanteenContext.Provider value={{ canteenState, setCanteenState }}>
               <CommonErrorHandler>
-                <div className="container-fluid px-0">
                   <AdminNavBar>
                     <Switch>
                       <Route exact path="/" component={CanteenContainer} />
@@ -135,7 +125,6 @@ function App() {
                       <Route path="*" component={NotFound} />
                     </Switch>
                   </AdminNavBar>
-                </div>
               </CommonErrorHandler>
             </AdminCanteenContext.Provider>
           </AuthContext.Provider>
@@ -144,7 +133,6 @@ function App() {
         return (
           <AuthContext.Provider value={{ state, dispatch }}>
             <CommonErrorHandler>
-              <div className="container-fluid px-0">
                 <CartContext.Provider value={{ cartState, setCartState }}>
                   <UserNavBar>
                     <Switch>
@@ -158,7 +146,6 @@ function App() {
                     </Switch>
                   </UserNavBar>
                 </CartContext.Provider>
-              </div>
             </CommonErrorHandler>
           </AuthContext.Provider>
         );

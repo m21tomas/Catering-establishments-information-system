@@ -28,7 +28,7 @@ A full-stack web application designed to manage canteen data, menus, and custome
 
 ### 2. Backend Setup
 1. Open the `Maitinimas-back` folder in your IDE.
-2. Ensure the `src/main/resources/application.properties` is configured eithher for H2 or postgreSQL.
+2. Ensure the `src/main/resources/application.properties` is configured either for H2 or postgreSQL.
 3. Run `MaitinimasApplication.java`.
 4. The API will be available at `http://localhost:8080`.
 5. H2 Console: `http://localhost:8080/console` (JDBC URL: `jdbc:h2:mem:testdb`).

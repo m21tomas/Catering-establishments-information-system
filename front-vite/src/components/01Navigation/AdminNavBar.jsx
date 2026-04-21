@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import apiEndpoint from "../06Services/endpoint";
 import { NavLink } from "react-router-dom";
-
+import PropTypes from 'prop-types';
 import logo from "../../images/maist2.png";
 import "../../App.css";
 
@@ -89,5 +89,9 @@ function Navigation(props) {
     </div>
   );
 }
+
+Navigation.propTypes = {
+  children: PropTypes.node, // This indicates that 'children' can be any renderable node
+};
 
 export default Navigation;

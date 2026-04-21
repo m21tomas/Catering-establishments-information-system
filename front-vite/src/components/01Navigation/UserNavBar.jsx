@@ -10,7 +10,7 @@ import apiEndpoint from "../06Services/endpoint";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
-
+import PropTypes from 'prop-types';
 import logo from "../../images/maist2.png";
 import "../../App.css";
 
@@ -141,5 +141,9 @@ function UserNavBar(props) {
         </>
     );
 }
+
+UserNavBar.propTypes = {
+    children: PropTypes.node, // This indicates that 'children' can be any renderable node
+};
 
 export default UserNavBar;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import apiEndpoint from "../06Services/endpoint";
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
@@ -9,6 +9,7 @@ import HandleEditUrlChange from '../07CommonComponents/HandleEditUrlChange';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark, faCaretSquareDown, faCaretSquareUp } from "@fortawesome/free-solid-svg-icons";
 import icon_spinner from "../../images/loader.svg";
+import PropTypes from 'prop-types';
 
 function EditImage({ editCanteenData, setEditCanteenData, editDiskImagePreview, setEditDiskImagePreview,
     chosen, setChosen, editUrlLinkValid, setEditUrlLinkValid, getCanteenEntity, canteenId }) {
@@ -38,22 +39,33 @@ function EditImage({ editCanteenData, setEditCanteenData, editDiskImagePreview, 
     }
 
     function handleEditFile() {
+        const isFileSelected = Boolean(editCanteenData.editFile); 
+        const isImage = isFileSelected && editCanteenData.editFile.type?.includes('image');
+    
         return (
             <div className="mb-3" style={{ position: 'relative', width: '109%', top: '5px' }}>
-                <input onChange={(event) => handleEditDiskImageUpload(event)} accept="image/*" className="form-control mt-2"
-                    type="file" id="formFile1" style={
-                        editCanteenData.editFile !== '' ? editCanteenData.editFile.type && editCanteenData.editFile.type.indexOf('image') !== -1 ? { border: "1px solid lightgray", marginLeft: "-24px" }
-                            : { border: "2px solid red", marginLeft: "-24px" }
-                            : { border: "1px solid lightgray", marginLeft: "-24px" }
-                    } />
-                {
-                    editCanteenData.editFile !== '' ? editCanteenData.editFile.type && editCanteenData.editFile.type.indexOf('image') !== -1 ? <span className="imageUploadApproved"><FontAwesomeIcon icon={faCheck} /></span>
+                <input 
+                    onChange={(event) => handleEditDiskImageUpload(event)} 
+                    accept="image/*" 
+                    className="form-control mt-2"
+                    type="file" 
+                    id="formFile1" 
+                    style={{
+                        border: !isFileSelected ? "1px solid lightgray" : 
+                                isImage ? "1px solid lightgray" : 
+                                "2px solid red", 
+                        marginLeft: "-24px"
+                    }} 
+                />
+                {isFileSelected && (
+                    isImage 
+                        ? <span className="imageUploadApproved"><FontAwesomeIcon icon={faCheck} /></span>
                         : <span className="imageUploadWarning"><FontAwesomeIcon icon={faXmark} /></span>
-                        : <span className="imageUploadApproved"></span>
-                }
+                )}
             </div>
         );
     }
+    
 
     const handleEditDiskImageUpload = (event) => {
         const theFile = event.target.files[0];
@@ -218,7 +230,7 @@ function EditImage({ editCanteenData, setEditCanteenData, editDiskImagePreview, 
                                 : { border: "2px solid red", marginLeft: "-24px" }
                                 : { border: "1px solid lightgray", marginLeft: "-24px" }
                         }
-                        pattern="^https?:\/\/+.+$"
+                        pattern="^https:\/\/.+\.(jpg|jpeg|png|gif|svg|ico)$"
                         data-toggle="tooltip"
                         data-placement="top"
                         title="Įveskite maitinimo įstaigos nuotraukos URL nuorodą"
@@ -227,7 +239,7 @@ function EditImage({ editCanteenData, setEditCanteenData, editDiskImagePreview, 
                     />
                     {editCanteenData.editImage.length === 0 || editUrlStringStatus ? <></> :
                         <ReactTooltip id='editUrlImage' effect='solid' place='bottom' type='warning'>
-                            <b>Netinkamas URL formatas. Turi prasidėti 'https://', o pasibaigti '*.jpg|*.png|*.gif|*.svg|*.ico|'</b>
+                            <b>Netinkamas URL formatas. Turi prasidėti &apos;https://&apos;, o pasibaigti &apos;*.jpg|*.png|*.gif|*.svg|*.ico|&apos;</b>
                         </ReactTooltip>}
                     {editCanteenData.editImage.length > 0 ? editUrlStringStatus ? editUrlLinkValid ? <span className="imageUploadApproved"><FontAwesomeIcon icon={faCheck} /></span>
                         : imageLoading === null ? <img className='spinner' src={icon_spinner} alt="Loading…" />
@@ -312,6 +324,32 @@ function EditImage({ editCanteenData, setEditCanteenData, editDiskImagePreview, 
             </Collapse>
         </>
     )
+}
+
+EditImage.propTypes = {
+    editCanteenData: PropTypes.shape({
+        editId: PropTypes.string,
+        editName: PropTypes.string,
+        editAddress: PropTypes.string,
+        editImage: PropTypes.string,
+        editFile: PropTypes.oneOfType([
+            PropTypes.instanceOf(File),
+            PropTypes.string,
+            PropTypes.null
+        ])
+    }).isRequired,
+    setEditCanteenData: PropTypes.func.isRequired,
+    editDiskImagePreview: PropTypes.string,
+    setEditDiskImagePreview: PropTypes.func.isRequired,
+    chosen: PropTypes.shape({
+        disk: PropTypes.bool,
+        linkUrl: PropTypes.bool
+    }).isRequired,
+    setChosen: PropTypes.func.isRequired,
+    editUrlLinkValid: PropTypes.bool,
+    setEditUrlLinkValid: PropTypes.func,
+    getCanteenEntity: PropTypes.func.isRequired,
+    canteenId: PropTypes.number
 }
 
 export default EditImage

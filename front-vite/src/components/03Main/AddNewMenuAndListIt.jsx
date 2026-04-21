@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactTooltip from 'react-tooltip-rc';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
@@ -7,10 +7,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { faCheck, faXmark, faPlus } from "@fortawesome/free-solid-svg-icons";
 import EditDishes from './ChangeMenuNameOrDeleteIt';
-
+import PropTypes from 'prop-types';
 
 function EditMenu({ fullData, getCanteenEntity, chosenId, editButton, menuData, setMenuData,
-    handleChange, handleMenuSubmit, infoValid, ValidateField, checkAllFields,
+    handleChange, handleMenuSubmit, infoValid, validateField, checkAllFields,
     setChosenMenuId, buttonChangeColorOnMenuSend, handleDeleteCanteenMenu }) {
 
     const [openMenuAdd, setOpenMenuAdd] = useState(false);
@@ -22,8 +22,6 @@ function EditMenu({ fullData, getCanteenEntity, chosenId, editButton, menuData, 
         let waitTime = Math.floor(Math.random() * (max - min + 1)) + min;
         setTimeout(() => setChosenMenuId(id), waitTime);
     }
-
-
 
     return (
         <>
@@ -70,7 +68,7 @@ function EditMenu({ fullData, getCanteenEntity, chosenId, editButton, menuData, 
                                 id="id_name"
                                 value={menuData.menuName}
                                 onChange={handleChange}
-                                onInvalid={ValidateField}
+                                onInvalid={validateField}
                                 style={
                                     menuData.menuName.length > 0 ? infoValid.menuName ? { border: "1px solid lightgray", width: "95%" }
                                         : { border: "2px solid red", width: "95%" }
@@ -114,12 +112,9 @@ function EditMenu({ fullData, getCanteenEntity, chosenId, editButton, menuData, 
                                     Įvesti
                                 </button>
                             </div>
-
                         </div>
                     </Collapse>
                 </form>
-
-
 
                 {
                     chosenId !== null && editButton.editMenu === true ?
@@ -131,7 +126,7 @@ function EditMenu({ fullData, getCanteenEntity, chosenId, editButton, menuData, 
                                 setMenuData={setMenuData}
                                 handleChange={handleChange}
                                 infoValid={infoValid}
-                                validateField={ValidateField}
+                                validateField={validateField}
                                 handleDeleteCanteenMenu={handleDeleteCanteenMenu}
                             />
 
@@ -144,5 +139,60 @@ function EditMenu({ fullData, getCanteenEntity, chosenId, editButton, menuData, 
 
     )
 }
+
+EditMenu.propTypes = {
+    fullData: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        address: PropTypes.string,
+        image: PropTypes.string,
+        menus: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number,
+                name: PropTypes.string,
+                dishes: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        id: PropTypes.number,
+                        name: PropTypes.string,
+                        description: PropTypes.string,
+                    })
+                ).isRequired,
+            })
+        ).isRequired,
+        menuName: PropTypes.string
+    }),
+    getCanteenEntity: PropTypes.func.isRequired,
+    chosenId: PropTypes.number,
+    editButton: PropTypes.shape({
+        editId: PropTypes.bool,
+        editName: PropTypes.bool,
+        editAddress: PropTypes.bool,
+        editMenu: PropTypes.bool
+    }).isRequired,
+    menuData: PropTypes.shape({
+        menuName: PropTypes.string,
+        editMenuName: PropTypes.string,
+        dishName: PropTypes.string,
+        description: PropTypes.string
+    }).isRequired,
+    setMenuData: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleMenuSubmit: PropTypes.func.isRequired,
+    infoValid: PropTypes.shape({
+        menuName: PropTypes.bool,
+        editMenuName: PropTypes.bool,
+        editId: PropTypes.bool,
+        editName: PropTypes.bool,
+        editAddress: PropTypes.bool,
+        editImage: PropTypes.bool,
+        dishName: PropTypes.bool,
+        description: PropTypes.bool
+    }).isRequired,
+    validateField: PropTypes.func.isRequired,
+    checkAllFields: PropTypes.func.isRequired,
+    setChosenMenuId: PropTypes.func.isRequired,
+    buttonChangeColorOnMenuSend: PropTypes.number,
+    handleDeleteCanteenMenu: PropTypes.func.isRequired
+};
 
 export default EditMenu

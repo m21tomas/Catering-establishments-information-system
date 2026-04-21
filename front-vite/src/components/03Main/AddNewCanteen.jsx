@@ -7,8 +7,9 @@ import apiEndpoint from "../06Services/endpoint";
 import axios from 'axios';
 import icon_spinner from "../../images/loader.svg";
 import handleNewImageURLChange from '../07CommonComponents/HandleNewImageURLChange';
-import getMimetype from '../07CommonComponents/GetMimeType';
-// import '../../App.css';
+import PropTypes from 'prop-types';
+
+import '../../App.css';
 
 function AddNewCanteen({ canteensObj, setCanteensObj }) {
 
@@ -19,18 +20,6 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
         image: '',
         file: ''
     });
-
-    // function checkAllFields() {
-    //     let allOk = false;
-    //     if (
-    //         duomenys.id.length > 0 && infoValid.id &&
-    //         duomenys.name.length > 0 && infoValid.name &&
-    //         duomenys.address.length > 0 && infoValid.address
-    //     ) {
-    //         allOk = true;
-    //     }
-    //     return allOk;
-    // }
 
     function checkAllFields() {
         let allOk = false;
@@ -83,16 +72,6 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
             [event.target.name]: event.target.value,
         });
     };
-
-    // setup the package variables
-    // const express = require('express');
-    // const axios = require('axios');
-    // const bodyParser = require('body-parser');
-    // const cors = require('cors');
-    // const CircularJSON = require('circular-json');
-
-    // initialize the app
-    // const app = express();
 
     const [imageLoading, setImageLoading] = useState(null);
     const handleUrlChange = async (event) => {
@@ -232,24 +211,6 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
                 });
         }
 
-
-        // fetch(`${apiEndpoint}/api/istaigos/canteenwithimage/new`, {
-        //     method: 'POST',
-        //     credentials: 'include',
-        //     headers: { 'Content-Type': 'multipart/form-data; charset=UTF-8' },
-        //     mode: 'cors',
-        //     body: formData
-        // })
-        //     .then(response => {
-        //         console.log("jsonBodyData: " + response.text())
-        //         console.log('Status', response.status)
-        //         return response.text()
-        //     })
-        //     .catch(err => {
-        //         console.log("jsonBodyData: " + JSON.stringify(jsonBodyData))
-        //         console.error(err.response.data)
-        //     });
-
     };
 
     function sendNewCanteenWithImage(data) {
@@ -360,7 +321,7 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
                                 : { border: "2px solid red", marginLeft: "-24px" }
                                 : { border: "1px solid lightgray", marginLeft: "-24px" }
                         }
-                        pattern="^https:\/\/.+\.(jpg|png|gif|svg|ico)$"
+                        pattern="^https:\/\/.+\.(jpg|jpeg|png|gif|svg|ico)$"
                         data-toggle="tooltip"
                         data-placement="top"
                         title="Įveskite maitinimo įstaigos nuotraukos URL nuorodą"
@@ -535,7 +496,7 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
                             onChange={(e) => setStatesTakingImage(e)}
                         />
                         <label className="form-check-label" htmlFor="linkUrl">
-                            Paimti nuotrauką iš nuorodos...
+                            Paimti nuotrauką iš nuorodos..
                         </label>
                         {
                             image.linkUrl ? takeUrl() : <span>&nbsp;</span>
@@ -565,5 +526,38 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
 
 
 }
+
+AddNewCanteen.propTypes = {
+    canteensObj: PropTypes.shape({
+      canteensArray: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number.isRequired,
+          name: PropTypes.string.isRequired,
+          address: PropTypes.string.isRequired,
+          image: PropTypes.string, // base64 encoded image
+          menus: PropTypes.arrayOf(
+            PropTypes.shape({
+              id: PropTypes.number.isRequired,
+              name: PropTypes.string.isRequired,
+              dishes: PropTypes.arrayOf(
+                PropTypes.shape({
+                  id: PropTypes.number.isRequired,
+                  name: PropTypes.string.isRequired,
+                  description: PropTypes.string.isRequired,
+                })
+              ).isRequired,
+            })
+          ).isRequired,
+        })
+      ).isRequired,
+      pageSize: PropTypes.number.isRequired,
+      currentPage: PropTypes.number.isRequired,
+      totalPages: PropTypes.number.isRequired,
+      totalElements: PropTypes.number.isRequired,
+      numberOfElements: PropTypes.number.isRequired,
+      deleteItemIndex: PropTypes.number.isRequired,
+    }).isRequired,
+    setCanteensObj: PropTypes.func.isRequired,
+  };
 
 export default AddNewCanteen;

@@ -11,9 +11,9 @@ export default function LogoutContainer() {
     const { dispatch } = React.useContext(AuthContext);
     const history = useHistory();
 
-    const handleLogout = e => {
+    const handleLogout = () => {
       axios.post(`${apiEndpoint}/logout`)
-      .then(response => {
+      .then(() => {
         console.log("Unauthenticating");
         localStorage.setItem("auth", "");
         dispatch({ 
@@ -22,7 +22,7 @@ export default function LogoutContainer() {
         history.push("/")
       })
       .catch(error => {
-        //console.log("Error on logout", error);
+        console.log("Error on logout", error);
       });        
 
     }

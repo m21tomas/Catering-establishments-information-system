@@ -1,9 +1,10 @@
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
 
 function OrderReviewModal({ orderReviewModal, setOrderReviewModal, orderReviewData }) {
-
+    if (!orderReviewData) return null;
     return (
         <Modal
             show={orderReviewModal}
@@ -55,5 +56,25 @@ function OrderReviewModal({ orderReviewModal, setOrderReviewModal, orderReviewDa
         </Modal>
     )
 }
+
+OrderReviewModal.propTypes = {
+    orderReviewModal: PropTypes.bool.isRequired,
+    setOrderReviewModal: PropTypes.func.isRequired,
+    orderReviewData: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        items: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            dishName: PropTypes.string.isRequired,
+            dishDescription: PropTypes.string.isRequired,
+            quantityInCart: PropTypes.number.isRequired,
+            username: PropTypes.string.isRequired
+        })).isRequired,
+        orderName: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
+        submitedAt: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired
+    })
+};
+
 
 export default OrderReviewModal

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import "../../App.css";
 // import http from "../10Services/httpService";
 // import apiEndpoint from "../10Services/endpoint";

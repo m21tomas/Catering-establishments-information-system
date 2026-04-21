@@ -56,7 +56,7 @@ function OrdersContainer() {
     }, [orders.currentPage, orders.pageSize, deleteOrder])
 
     const [orderReviewModal, setOrderReviewModal] = useState(false);
-    const [orderReviewData, setOrderReviewData] = useState(0)
+    const [orderReviewData, setOrderReviewData] = useState(null);
 
 
     const handleReviewModal = (item) => {
@@ -111,23 +111,6 @@ function OrdersContainer() {
             .catch((error) => {
                 console.error(error.response.data);
             })
-        //console.log("e=",e) 
-        // const newArray = orders.ordersArray.map((ordersItem, index) => {
-        //     if (getIndex === index) {
-        //         return {
-        //             id: ordersItem.id,
-        //             items: ordersItem.items,
-        //             orderName: ordersItem.orderName,
-        //             status: e.value,
-        //             editStatus: false,
-        //             submitedAt: ordersItem.submitedAt,
-        //             username: ordersItem.username
-        //         }
-        //     }
-        //     else { return ordersItem }
-        // })
-        // setOrders({...orders, ordersArray: newArray})
-
     }
 
     return (

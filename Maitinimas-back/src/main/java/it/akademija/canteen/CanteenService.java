@@ -117,6 +117,9 @@ public class CanteenService {
             String fileExtension = "bin";
             if (contentType.startsWith("image/")) {
             	fileExtension = contentType.substring("image/".length());
+            	if(fileExtension.equalsIgnoreCase("jpeg")){
+            		fileExtension = "jpg";
+            	}
     	    } 
             
             System.out.println("\nBookServiceTest: File size: "+imageData.length);
@@ -144,8 +147,10 @@ public class CanteenService {
 		newEntity.setName(data.getName());
 		newEntity.setAddress(data.getAddress());
 		
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        newEntity.setImagename(fileName);
+		String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+	    // Replace .jpeg with .jpg
+	    String fileName = originalFileName.replaceAll("(?i)\\.jpeg$", ".jpg");
+	    newEntity.setImagename(fileName);
         
         String uploadDir = "canteen-images/";
 		

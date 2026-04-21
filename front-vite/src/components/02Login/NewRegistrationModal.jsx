@@ -9,6 +9,7 @@ import ReactTooltip from 'react-tooltip-rc';
 import apiEndpoint from "../06Services/endpoint";
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
+import PropTypes from 'prop-types';
 
 const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
     const passwordShown = false;
@@ -388,7 +389,7 @@ const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
                 <ReCAPTCHA
                     ref={recaptchaRef}
                     size="normal"
-                    sitekey={`${import.meta.env.REACT_APP_SITE_KEY}`}
+                    sitekey={`${import.meta.env.VITE_SITE_KEY}`}
                     onExpired={() => setExpiredCapture(true)}
                 />
             </Modal.Body>
@@ -414,6 +415,11 @@ const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
             </Table>
         </Modal>
     )
+}
+
+NewRegistrationModal.propTypes = {
+    registerModal: PropTypes.bool.isRequired,
+    setRegisterModal: PropTypes.func.isRequired
 }
 
 export default NewRegistrationModal

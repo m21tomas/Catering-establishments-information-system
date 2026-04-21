@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip-rc';
 import Button from 'react-bootstrap/Button';
@@ -8,6 +8,7 @@ import apiEndpoint from "../06Services/endpoint";
 import validateField from '../07CommonComponents/ValidateCanteenFields';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPenToSquare, faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from 'prop-types';
 
 function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
     infoValid, printCurrentMenuValue, getCanteenEntity }) {
@@ -504,6 +505,50 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
         </>
     )
 
+}
+
+NewDishes.propTypes = {
+    fullData: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        address: PropTypes.string,
+        image: PropTypes.string,
+        menus: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number,
+                name: PropTypes.string,
+                dishes: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        id: PropTypes.number,
+                        name: PropTypes.string,
+                        description: PropTypes.string
+                    })
+                ).isRequired,
+            })
+        ).isRequired,
+        menuName: PropTypes.string
+    }),
+    chosenId: PropTypes.number,
+    menuData: PropTypes.shape({
+        menuName: PropTypes.string,
+        editMenuName: PropTypes.string,
+        dishName: PropTypes.string,
+        description: PropTypes.string
+    }).isRequired,
+    setMenuData: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    infoValid: PropTypes.shape({
+        menuName: PropTypes.bool,
+        editMenuName: PropTypes.bool,
+        editId: PropTypes.bool,
+        editName: PropTypes.bool,
+        editAddress: PropTypes.bool,
+        editImage: PropTypes.bool,
+        dishName: PropTypes.bool,
+        description: PropTypes.bool
+    }).isRequired,
+    printCurrentMenuValue: PropTypes.func.isRequired,
+    getCanteenEntity: PropTypes.func.isRequired
 }
 
 export default NewDishes

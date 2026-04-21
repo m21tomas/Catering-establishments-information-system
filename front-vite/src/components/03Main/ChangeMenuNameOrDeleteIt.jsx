@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip-rc';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import apiEndpoint from "../06Services/endpoint";
-
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark, faCaretSquareDown, faCaretSquareUp } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,10 +13,9 @@ function EditDishes({ fullData, getCanteenEntity, chosenId, menuData, setMenuDat
     const [menuEditColorReset, setMenuEditColorReset] = useState(0);
 
     useEffect(() => {
-        let menuName = undefined;
-        fullData.menus.filter(item => item.id === chosenId).map(item => menuName = item.name);
-        setMenuData({ ...menuData, editMenuName: menuName });
-    }, [chosenId, menuData, fullData.menus, setMenuData]);
+        let menuName = fullData.menus.find(item => item.id === chosenId)?.name || undefined;
+        setMenuData(prevData => ({ ...prevData, editMenuName: menuName }));
+    }, [chosenId, fullData.menus, setMenuData]);
 
     function checkEditMenu() {
         return menuData.editMenuName.length > 0 && infoValid.editMenuName;
@@ -172,6 +171,51 @@ function EditDishes({ fullData, getCanteenEntity, chosenId, menuData, setMenuDat
         </>
 
     );
+}
+
+EditDishes.propTypes = {
+    fullData: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        address: PropTypes.string,
+        image: PropTypes.string,
+        menus: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number,
+                name: PropTypes.string,
+                dishes: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        id: PropTypes.number,
+                        name: PropTypes.string,
+                        description: PropTypes.string
+                    })
+                ).isRequired,
+            })
+        ).isRequired,
+        menuName: PropTypes.string
+    }),
+    getCanteenEntity: PropTypes.func.isRequired,
+    chosenId: PropTypes.number,
+    menuData: PropTypes.shape({
+        menuName: PropTypes.string,
+        editMenuName: PropTypes.string,
+        dishName: PropTypes.string,
+        description: PropTypes.string
+    }).isRequired,
+    setMenuData: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    infoValid: PropTypes.shape({
+        menuName: PropTypes.bool,
+        editMenuName: PropTypes.bool,
+        editId: PropTypes.bool,
+        editName: PropTypes.bool,
+        editAddress: PropTypes.bool,
+        editImage: PropTypes.bool,
+        dishName: PropTypes.bool,
+        description: PropTypes.bool
+    }).isRequired,
+    validateField: PropTypes.func.isRequired,
+    handleDeleteCanteenMenu: PropTypes.func.isRequired
 }
 
 export default EditDishes

@@ -22,7 +22,7 @@ const AdminAddMenu = () => {
     const history = useHistory();
 
     const [canteenFullData, setCanteenFullData] = useState({
-        id: '',
+        id: 0,
         name: '',
         address: '',
         image: '',
@@ -42,7 +42,7 @@ const AdminAddMenu = () => {
         editName: '',
         editAddress: '',
         editImage: '',
-        editFile: ''
+        editFile: null
     })
 
     const [menuData, setMenuData] = useState({
@@ -315,8 +315,6 @@ const AdminAddMenu = () => {
                         <select value={canteenFullData.id} onChange={(e) => handleChangeCanteen(e)}
                             name="canteens_dropdown" className='cant-drop drplist'>
                             {
-                                // TypeError: o.map is not a function
-                                // at py (AdminAddMenu.jsx:320:77)
                                 canteensList.size > 0 ? null : canteensList.map(item =>
                                     <option key={item.id} value={item.id}>{item.name}</option>
                                 )
@@ -325,28 +323,6 @@ const AdminAddMenu = () => {
                         </select>
                         <button className="editDishBack" onClick={() => history.push("/canteen")}>Atgal</button>
                     </div>
-                    {/* <table>
-                        <tbody>
-                            <tr>
-                                <td style={{ width: '388.83px' }}>
-                                    <h3 className='cant-drop'>Redaguoti maitinimo įstaigą:</h3>
-                                </td>
-                                <td style={{ width: '220px', verticalAlign: 'top'}}>
-                                    <select value={canteenFullData.id} onChange={(e) => handleChangeCanteen(e)}
-                                        name="canteens_dropdown" className='cant-drop drplist'>
-                                        {
-                                            canteensList.map(item =>
-                                                <option key={item.id} value={item.id}>{item.name}</option>
-                                            )
-                                        }
-                                    </select>
-                                </td>
-                                <td style={{ width: '246.17px', float: 'right'}}>
-                                    <button className="editDishBack" onClick={() => history.push("/canteen")}>Atgal</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> */}
 
                     <table className="table">
                         <thead>

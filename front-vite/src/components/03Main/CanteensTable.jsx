@@ -4,6 +4,7 @@ import axios from "axios";
 import AdminCanteenContext from "../06Services/AdminCanteenContext";
 import Pagination from "../07CommonComponents/Pagination";
 import apiEndpoint from "../06Services/endpoint";
+import PropTypes from 'prop-types';
 
 function CanteensTable({canteensObj, setCanteensObj}) {
 
@@ -136,5 +137,38 @@ function CanteensTable({canteensObj, setCanteensObj}) {
 
     );
 }
+
+CanteensTable.propTypes = {
+    canteensObj: PropTypes.shape({
+      canteensArray: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number.isRequired,
+          name: PropTypes.string.isRequired,
+          address: PropTypes.string.isRequired,
+          image: PropTypes.string, // base64 encoded image
+          menus: PropTypes.arrayOf(
+            PropTypes.shape({
+              id: PropTypes.number.isRequired,
+              name: PropTypes.string.isRequired,
+              dishes: PropTypes.arrayOf(
+                PropTypes.shape({
+                  id: PropTypes.number.isRequired,
+                  name: PropTypes.string.isRequired,
+                  description: PropTypes.string.isRequired,
+                })
+              ).isRequired,
+            })
+          ).isRequired,
+        })
+      ).isRequired,
+      pageSize: PropTypes.number.isRequired,
+      currentPage: PropTypes.number.isRequired,
+      totalPages: PropTypes.number.isRequired,
+      totalElements: PropTypes.number.isRequired,
+      numberOfElements: PropTypes.number.isRequired,
+      deleteItemIndex: PropTypes.number.isRequired,
+    }).isRequired,
+    setCanteensObj: PropTypes.func.isRequired,
+  };
 
 export default CanteensTable

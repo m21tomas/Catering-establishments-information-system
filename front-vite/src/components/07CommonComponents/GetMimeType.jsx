@@ -1,32 +1,36 @@
+const getMimeType = (signature) => {
+    // Convert to uppercase to ensure case-insensitive matching
+    signature = signature.toUpperCase();
 
-const GetMimeType = (signature) => {
-
-    if(signature.substr(0,4) === '424D'){
-        signature = '424D'
+    // Normalize certain signatures for more consistent matching
+    if (signature.startsWith('424D')) {
+        signature = '424D';
     }
 
     switch (signature) {
         case 'FFD8FFDB':
         case 'FFD8FFE0':
         case 'FFD8FFE1':
-            return 'image/jpeg'
+        case 'FFD8FF': // Generic JPEG
+            return 'image/jpeg';
         case '89504E47':
-            return 'image/png'
+            return 'image/png';
         case '47494638':
-            return 'image/gif'
-        case '49492A0':
-            return 'image/tiff'
+            return 'image/gif';
+        case '49492A00': // Corrected TIFF signature length
+        case '4D4D002A': // Big-endian TIFF
+            return 'image/tiff';
         case '424D':
-            return 'image/bmp'
-        case '0010':
-            return 'image/x-icon'
+            return 'image/bmp';
+        case '00000100': // Corrected ICO signature
+            return 'image/x-icon';
         case '25504446':
-            return 'application/pdf'
+            return 'application/pdf';
         case '504B0304':
-            return 'application/zip'
+            return 'application/zip';
         default:
-            return 'Unknown filetype'
+            return 'unknown';
     }
-}
+};
 
-export default GetMimeType
+export default getMimeType;

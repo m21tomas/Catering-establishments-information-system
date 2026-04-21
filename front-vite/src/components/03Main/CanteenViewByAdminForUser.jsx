@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import defaultImage from "../../images/defaultImg.jpg";
 import EditImage from './EditImage';
+import PropTypes from 'prop-types';
 
 const CanteenViewByAdminForUser = ({ canteenFullData, editCanteenData, setEditCanteenData, getCanteenEntity }) => {
     
@@ -45,6 +46,42 @@ const CanteenViewByAdminForUser = ({ canteenFullData, editCanteenData, setEditCa
                 />
         </div>
     )
+}
+
+CanteenViewByAdminForUser.propTypes = {
+    canteenFullData: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        address: PropTypes.string,
+        image: PropTypes.string,
+        menus: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number,
+                name: PropTypes.string,
+                dishes: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        id: PropTypes.number,
+                        name: PropTypes.string,
+                        description: PropTypes.string,
+                    })
+                ).isRequired,
+            })
+        ).isRequired,
+        menuName: PropTypes.string
+    }),
+    editCanteenData: PropTypes.shape({
+        editId: PropTypes.string,
+        editName: PropTypes.string,
+        editAddress: PropTypes.string,
+        editImage: PropTypes.string,
+        editFile: PropTypes.oneOfType([
+            PropTypes.instanceOf(File),
+            PropTypes.string,
+            PropTypes.null
+        ])
+    }).isRequired,
+    setEditCanteenData: PropTypes.func.isRequired,
+    getCanteenEntity: PropTypes.func.isRequired
 }
 
 export default CanteenViewByAdminForUser

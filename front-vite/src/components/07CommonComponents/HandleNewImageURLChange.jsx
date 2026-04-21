@@ -25,8 +25,8 @@ const HandleNewImageURLChange = async (event, duomenys, setDuomenys,
             } else if (response.ok) {
                 // Read the response as JSON
                 const data = await response.json();
-                console.log("Response status: ", response.status);
-                console.log("Received data: ", JSON.stringify(data));
+                // console.log("Response status: ", response.status);
+                // console.log("Received data: ", JSON.stringify(data));
     
                 // Check if the contentType indicates an image
                 if (data.contentType.split('/').shift() === "image") {
@@ -40,7 +40,7 @@ const HandleNewImageURLChange = async (event, duomenys, setDuomenys,
                     
                     // Create the Blob
                     const imageBlob = new Blob([byteArray], { type: data.contentType });
-                    console.log("Image Blob Size:", imageBlob.size); // Log the size of the Blob
+                    //console.log("Image Blob Size:", imageBlob.size); // Log the size of the Blob
                     setBlobPromise(imageBlob);
                     setUrlLinkValid(true);
                 } else if (data.contentType === "binary/octet-stream") {

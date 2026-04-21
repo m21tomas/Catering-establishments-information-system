@@ -9,6 +9,7 @@ import ReactTooltip from 'react-tooltip-rc';
 import apiEndpoint from "../06Services/endpoint";
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
+import PropTypes from 'prop-types';
 
 const ForgotPasswordModal = ({ forgotModal, setForgotModal }) => {
 
@@ -353,7 +354,7 @@ const ForgotPasswordModal = ({ forgotModal, setForgotModal }) => {
                     <ReCAPTCHA
                         ref={recaptchaRef}
                         size="normal"
-                        sitekey={`${import.meta.env.REACT_APP_SITE_KEY}`}
+                        sitekey={`${import.meta.env.VITE_SITE_KEY}`}
                         onExpired={() => setExpiredCapture(true)} />
                 </Modal.Body>
 
@@ -479,6 +480,11 @@ const ForgotPasswordModal = ({ forgotModal, setForgotModal }) => {
             </Modal>
         </>
     )
+}
+
+ForgotPasswordModal.propTypes = {
+    forgotModal: PropTypes.bool.isRequired,
+    setForgotModal: PropTypes.func.isRequired
 }
 
 export default ForgotPasswordModal

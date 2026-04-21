@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import AdminCreateUser from './AdminCreateUser';
 import UserListContainer from './UserListContainer';
 import '../../App.css';
